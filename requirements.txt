@@ -1,0 +1,11 @@
+# Python 3.11. The runs of the paper used vllm 0.13.0 (CUDA 12, H200), torch 2.9.0, transformers 4.57.1, xgrammar 0.1.27.
+vllm>=0.13,<0.14
+torch>=2.9
+transformers>=4.57
+xgrammar>=0.1.27
+datasets
+pandas
+numpy
+scipy
+matplotlib
+seaborn
