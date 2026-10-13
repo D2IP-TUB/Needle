@@ -43,7 +43,10 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 tok, model = load_hf_model()
 NL, NH, HD, D = model.config.num_hidden_layers, model.config.num_attention_heads, model.config.head_dim, model.config.hidden_size
 
-pop = json.load(open(OUT / "heads" / "populations.json"))
+pop_file = OUT / "heads" / "populations.json"
+if not pop_file.exists():
+    pop_file = Path(__file__).resolve().parents[1] / "results" / "mechanistic" / "heads" / "populations.json"
+pop = json.load(open(pop_file))
 pop = {k: [tuple(h) for h in v] for k, v in pop.items()}
 POP = {"counting": pop["counting"], "coordinate": pop["coordinate"],
        "coordinate_wide + column + movers": sorted(set(pop["coordinate_wide"]) | set(pop["column"]) | set(pop["movers"]))}

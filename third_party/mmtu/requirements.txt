@@ -1,9 +1,0 @@
-pandas
-tabulate
-tiktoken
-tqdm
-xlsxwriter
-tenacity
-datasets
-openai
-azure-ai-inference

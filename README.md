@@ -39,7 +39,6 @@ mechanistic/             the analyses of the mechanistic section (attention, pro
 figures/                 the figure scripts (read results/, write figures/out/)
 results/                 the result files behind every table and figure of the paper (see below)
 data/niat/               the 360 NIAT source tables and released samples; data/subset_ids.json pins the subset
-third_party/mmtu/        the MMTU evaluator and task sources that ccs/mmtu_eval.py ports (reference only)
 tests/                   CPU checks of the serialization, the grammars and the scoring
 ```
 
@@ -143,10 +142,11 @@ python figures/fig_attention.py               # cells8 cells16 cells32 answer la
 python figures/fig_mech.py                    # probe roles heads stages numbers
 ```
 
-## Results shipped with the repository
+## Results
 
 ``results/`` holds the files behind every number of the paper, so that ``scripts/tables.py`` and the figure
-scripts run without a GPU:
+scripts run without a GPU (the files are part of the repository; the anonymous submission archive carries the
+code and data only, and the scripts write the same layout):
 
 * ``subset/<model>__<preset>.json``: metrics of every (model, preset) run on the evaluation subset, plus the
   SpreadsheetLLM outputs in ``subset/outputs``; ``full`` runs carry the NIAT cropped set from the rerun with
@@ -166,7 +166,7 @@ Raw generations of new runs are written next to the metrics (``outputs/``) and a
   tasks. Qwen3-4B-Instruct-2507 runs with its native 256K window; the other models at their own maximum
   (Qwen2.5 and Qwen3-8B extended to 128K with YaRN as documented on their model cards). Mistral-7B's 32K window
   holds no MMTU prompt, so its MMTU accuracy is 0 in every configuration.
-* ``ccs/mmtu_eval.py`` ports MMTU's ``tniah_evaluator`` and ``tablelocate_evaluator`` (sources in
-  ``third_party/mmtu``); NIAT is scored by exact match on the ``cell_value`` / ``answer`` field.
+* ``ccs/mmtu_eval.py`` ports MMTU's ``tniah_evaluator`` and ``tablelocate_evaluator`` (from
+  https://github.com/MMTU-Benchmark/MMTU); NIAT is scored by exact match on the ``cell_value`` / ``answer`` field.
 * The mechanistic scripts use the per-task tag shape on NIAT prompts (``CCS_PRESET=full``), which is the CCS
   form the paper analyses; it is identical to the default shape on those sets except for the column list.

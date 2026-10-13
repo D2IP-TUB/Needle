@@ -1,7 +1,7 @@
 """Evaluation of the two MMTU needle tasks.
 
 Faithful re-implementation of ``evaluators/tniah_evaluator.py`` and ``evaluators/tablelocate_evaluator.py``
-of the MMTU repository (copies in ``third_party/mmtu``):
+of the MMTU repository (https://github.com/MMTU-Benchmark/MMTU):
 
 * needle (value -> position, MMTU task ``Table-needle-in-a-haystack``): answer JSON ``{"row": r, "column": c}``;
   ``row`` correct if the ``int`` values match, ``column`` correct if the case-insensitive stripped strings

@@ -5,6 +5,7 @@
     CUDA_VISIBLE_DEVICES=1 python scripts/run_fullset.py mmtu_niht mmtu_table_locate
     CCS_PRESET=jsonl_protocol CUDA_VISIBLE_DEVICES=2 python scripts/run_fullset.py
     CCS_PRESET=ccs_colword CUDA_VISIBLE_DEVICES=0 python scripts/run_fullset.py mmtu_niht
+    python scripts/run_fullset.py --limit 4                                       # smoke test (not a valid score)
 
 Outputs go to results/fullset/<model>__<preset>/ (override with CCS_FULL_OUT): outputs_<set>.jsonl and
 metrics_<set>.json per set, with a checkpoint after every batch so that a killed job resumes. Aggregate the
@@ -26,14 +27,22 @@ import solve  # noqa: E402
 from ccs.niat_data import load_prompt_records  # noqa: E402
 from ccs.utils import write_jsonl  # noqa: E402
 
-sets = sys.argv[1:] or benchmark.SETS
-OUT = Path(os.environ.get("CCS_FULL_OUT") or ROOT / "results" / "fullset" / f"{solve.MODEL}__{solve.PRESET}")
+import argparse  # noqa: E402
+
+ap = argparse.ArgumentParser()
+ap.add_argument("sets", nargs="*", default=benchmark.SETS, help="prompt sets (default: all five)")
+ap.add_argument("--limit", type=int, default=0, help="smoke test: first N prompts per set (not a valid score)")
+cli = ap.parse_args()
+sets, LIMIT = cli.sets or benchmark.SETS, cli.limit
+OUT = Path(os.environ.get("CCS_FULL_OUT") or ROOT / "results" / "fullset" / f"{solve.MODEL}__{solve.PRESET}{'_limit' if LIMIT else ''}")
 OUT.mkdir(parents=True, exist_ok=True)
 print("[full] config:", solve.describe(), "->", OUT, flush=True)
 
 t0 = time.time()
 for s in sets:
     recs = load_prompt_records(ROOT / "data" / "processed" / f"{s}.jsonl")
+    if LIMIT:
+        recs = recs[:LIMIT]
     part = OUT / f"partial_{s}.jsonl"
     texts = [json.loads(l)["text"] for l in part.read_text().splitlines()] if part.exists() else []
     if texts:

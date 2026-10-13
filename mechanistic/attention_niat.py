@@ -35,7 +35,7 @@ import solve  # noqa: E402
 ap = argparse.ArgumentParser()
 ap.add_argument("--formats", nargs="+", default=["markdown", "tagged", "json"])
 ap.add_argument("--table", default="TabFact_1-16457934-2.html.csv_32X32_8x8")
-args = ap.parse_args()
+args, _ = ap.parse_known_args()   # attention_crops.py imports this module with its own arguments
 OUT_DIR = OUT / "attention"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
