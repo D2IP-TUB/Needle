@@ -144,21 +144,19 @@ python figures/fig_mech.py                    # probe roles heads stages numbers
 
 ## Results
 
-``results/`` holds the files behind every number of the paper, so that ``scripts/tables.py`` and the figure
-scripts run without a GPU (the files are part of the repository; the anonymous submission archive carries the
-code and data only, and the scripts write the same layout):
+The runners and analyses write ``results/`` in the layout below, which ``scripts/tables.py`` and the figure
+scripts read (no GPU needed once the result files exist). The result files themselves are not part of the
+repository:
 
 * ``subset/<model>__<preset>.json``: metrics of every (model, preset) run on the evaluation subset, plus the
   SpreadsheetLLM outputs in ``subset/outputs``; ``full`` runs carry the NIAT cropped set from the rerun with
   constrained decoding on that set.
 * ``fullset/<model>__<preset>/metrics_<set>.json``: full-set runs; the needle outputs of the heat-map arms.
 * ``table_qa/``: MMTU Table-QA summary. ``tokens_full.json``: prompt lengths.
-* ``mechanistic/``: the measurements behind the mechanistic figures (attention maps of the 8x8 and 16x16 tables,
-  probe read-outs, head roles and populations, the single-head attention of the stage figure, the knock-outs,
-  the size sweep). The 32x32 attention maps (66 MB each) are not included; ``attention_crops.py --sizes 32``
-  regenerates them.
+* ``mechanistic/``: the measurements behind the mechanistic figures (attention maps, probe read-outs, head roles
+  and populations, the single-head attention of the stage figure, the knock-outs, the size sweep).
 
-Raw generations of new runs are written next to the metrics (``outputs/``) and are ignored by git.
+Raw generations are written next to the metrics (``outputs/``).
 
 ## Notes
 

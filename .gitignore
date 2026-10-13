@@ -31,3 +31,6 @@ results/mechanistic/**/*.npz
 # regenerated figures
 figures/out/
 .pytest_cache/
+
+# result files are kept locally (scripts/tables.py and figures/ read them) and are not part of the repository
+results/
