@@ -30,3 +30,4 @@ results/mechanistic/**/*.npz
 
 # regenerated figures
 figures/out/
+.pytest_cache/
